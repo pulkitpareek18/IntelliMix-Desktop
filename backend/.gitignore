@@ -1,0 +1,12 @@
+__pycache__
+*.pyc
+.pyc
+# Local environment file
+.env
+# Virtual environment
+.venv/
+venv/
+env/
+# Build directories
+build/
+dist/

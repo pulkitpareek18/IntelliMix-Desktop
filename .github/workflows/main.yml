@@ -1,0 +1,130 @@
+name: Build Desktop App
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        include:
+          - os: ubuntu-latest
+            artifact_name: IntelliMix-Linux
+            executable_extension: ""
+          - os: windows-latest
+            artifact_name: IntelliMix-Windows
+            executable_extension: ".exe"
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    
+    - name: Install system dependencies (Ubuntu)
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libxcb-cursor0
+    
+    - name: Install Python dependencies
+      working-directory: ./backend
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Create .env file with placeholder
+      working-directory: ./backend
+      run: |
+        echo "GENAI_API_KEY=${{ secrets.GENAI_API_KEY || 'your-api-key-here' }}" > .env
+        echo "GENAI_MODEL=gemini-2.0-flash" >> .env
+    
+    - name: Test imports before build
+      working-directory: ./backend
+      run: |
+        python test_build.py
+    
+    - name: Build executable
+      working-directory: ./backend
+      run: |
+        pyinstaller IntelliMix.spec
+    
+    - name: Rename executable for Windows
+      if: matrix.os == 'windows-latest'
+      working-directory: ./backend/dist
+      run: |
+        ren IntelliMix.exe IntelliMix-Windows.exe
+    
+    - name: Rename executable for Linux
+      if: matrix.os == 'ubuntu-latest'
+      working-directory: ./backend/dist
+      run: |
+        mv IntelliMix IntelliMix-Linux
+        chmod +x IntelliMix-Linux
+    
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ matrix.artifact_name }}
+        path: backend/dist/IntelliMix*
+        retention-days: 30
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+    - name: Download Linux artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: IntelliMix-Linux
+        path: ./linux-build/
+    
+    - name: Download Windows artifact  
+      uses: actions/download-artifact@v3
+      with:
+        name: IntelliMix-Windows
+        path: ./windows-build/
+    
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ github.run_number }}
+        release_name: Release v${{ github.run_number }}
+        draft: false
+        prerelease: false
+    
+    - name: Upload Linux Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./linux-build/IntelliMix-Linux
+        asset_name: IntelliMix-Linux
+        asset_content_type: application/octet-stream
+    
+    - name: Upload Windows Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./windows-build/IntelliMix-Windows.exe
+        asset_name: IntelliMix-Windows.exe
+        asset_content_type: application/octet-stream

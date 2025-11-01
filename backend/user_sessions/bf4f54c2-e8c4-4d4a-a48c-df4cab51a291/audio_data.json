@@ -1,0 +1,40 @@
+{
+  "mixTitle": "Honey Singh Mashup",
+  "songs": [
+    {
+      "title": "Brown Rang",
+      "artist": "Honey Singh",
+      "url": "https://www.youtube.com/watch?v=P_hmA8TEAtM",
+      "startTime": "00:48",
+      "endTime": "01:20"
+    },
+    {
+      "title": "Blue Eyes",
+      "artist": "Honey Singh",
+      "url": "https://www.youtube.com/watch?v=icsqDN0tCkg",
+      "startTime": "00:55",
+      "endTime": "01:35"
+    },
+    {
+      "title": "Love Dose",
+      "artist": "Honey Singh",
+      "url": "https://www.youtube.com/watch?v=K09_5EqGSYg",
+      "startTime": "00:35",
+      "endTime": "01:05"
+    },
+    {
+      "title": "Angreji Beat",
+      "artist": "Honey Singh",
+      "url": "https://www.youtube.com/watch?v=N0oqiK9Wnks",
+      "startTime": "01:06",
+      "endTime": "01:36"
+    },
+    {
+      "title": "Dope Shope",
+      "artist": "Honey Singh",
+      "url": "https://www.youtube.com/watch?v=z2rv3tqXp_w",
+      "startTime": "00:30",
+      "endTime": "01:10"
+    }
+  ]
+}

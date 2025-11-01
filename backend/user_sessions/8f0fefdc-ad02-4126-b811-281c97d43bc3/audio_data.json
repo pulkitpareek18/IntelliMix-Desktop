@@ -1,0 +1,40 @@
+{
+  "mixTitle": "Honey Singh Mashup",
+  "songs": [
+    {
+      "title": "Brown Rang",
+      "artist": "Yo Yo Honey Singh",
+      "url": "https://www.youtube.com/watch?v=Pzfqw-0Kj2Y",
+      "startTime": "00:48",
+      "endTime": "01:25"
+    },
+    {
+      "title": "Blue Eyes",
+      "artist": "Yo Yo Honey Singh",
+      "url": "https://www.youtube.com/watch?v=icsR4H_eE2g",
+      "startTime": "00:58",
+      "endTime": "01:30"
+    },
+    {
+      "title": "Lungi Dance",
+      "artist": "Yo Yo Honey Singh",
+      "url": "https://www.youtube.com/watch?v=xd4Ou2XGUI0",
+      "startTime": "00:45",
+      "endTime": "01:15"
+    },
+    {
+      "title": "Love Dose",
+      "artist": "Yo Yo Honey Singh",
+      "url": "https://www.youtube.com/watch?v=EO5EckhgT5s",
+      "startTime": "00:52",
+      "endTime": "01:28"
+    },
+    {
+      "title": "Dope Shope",
+      "artist": "Yo Yo Honey Singh",
+      "url": "https://www.youtube.com/watch?v=j2vBL2M-Y4w",
+      "startTime": "00:30",
+      "endTime": "01:10"
+    }
+  ]
+}
