@@ -12,10 +12,10 @@ def test_imports():
         import time
         import webbrowser
         from app import app
-        print("✅ All modules imported successfully")
+        print("[OK] All modules imported successfully")
         return True
     except ImportError as e:
-        print(f"❌ Import error: {e}")
+        print(f"[ERROR] Import error: {e}")
         return False
 
 def test_flask_app():
@@ -25,21 +25,21 @@ def test_flask_app():
         with app.test_client() as client:
             # Test if the app has routes configured
             response = client.get('/')
-            print(f"✅ Flask app responds (status: {response.status_code})")
+            print(f"[OK] Flask app responds (status: {response.status_code})")
             return True
     except Exception as e:
-        print(f"❌ Flask app error: {e}")
+        print(f"[ERROR] Flask app error: {e}")
         return False
 
 if __name__ == "__main__":
-    print("🧪 Testing IntelliMix Desktop App Components...")
+    print("Testing IntelliMix Desktop App Components...")
     
     import_success = test_imports()
     flask_success = test_flask_app()
     
     if import_success and flask_success:
-        print("🎉 All tests passed! The app should work correctly.")
+        print("SUCCESS: All tests passed! The app should work correctly.")
         exit(0)
     else:
-        print("💥 Some tests failed. Check the errors above.")
+        print("FAILURE: Some tests failed. Check the errors above.")
         exit(1)
